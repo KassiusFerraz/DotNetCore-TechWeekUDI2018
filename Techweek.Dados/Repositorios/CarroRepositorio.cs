@@ -35,7 +35,6 @@ namespace Techweek.Dados.Repositorios
 
         public Carro ObterPorId(int id)
         {
-            //using System.Linq; Adicionar nos using
             return _contexto.Carros.Where(x => x.Id == id)
                 .FirstOrDefault();
         }
