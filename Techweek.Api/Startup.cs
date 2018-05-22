@@ -5,12 +5,16 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.PlatformAbstractions;
 using Swashbuckle.AspNetCore.Swagger;
+using Techweek.Dados;
+using Techweek.Dados.Repositorios;
+using Techweek.Regras;
 
 namespace Techweek.Api
 {
@@ -28,6 +32,14 @@ namespace Techweek.Api
         {
             services.AddMvc();
             
+            services.AddTransient<ICarroRegras, CarroRegras>();
+            services.AddTransient<ICarroRepositorio, CarroRepositorio>();
+
+            services.AddDbContext<Contexto>( options => {
+                    options.UseInMemoryDatabase("Teste");
+            });
+            
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new Info { Title = "Techweek", Version = "v1" });
