@@ -14,6 +14,7 @@ namespace Techweek.Api
             this.CarroRegras = carroRegras;
         }
 
+        
         [HttpPost]
         public IActionResult 
             Post([FromBody] CarroModeloVisao carroModeloVisao)
@@ -45,5 +46,65 @@ namespace Techweek.Api
                 }
             }
 
+            [HttpDelete("{id}")]
+            public IActionResult Delete(int id)
+            {
+                try
+                {
+                    var carro = CarroRegras.ObterPorId(id);
+                    if (carro == null)
+                    {
+                        return NotFound();
+                    }
+                    CarroRegras.Deletar(carro);
+                    return NoContent();
+                }
+                catch (System.Exception)
+                {
+                    
+                    throw;
+                }
+            }
+
+            [HttpGet]
+            public IActionResult Get()
+            {
+                try
+                {
+                    var carros = CarroRegras.ObterTodos();
+                    return Json(carros);
+                }
+                catch (System.Exception)
+                {
+                    
+                    throw;
+                }
+            }
+
+            [HttpPut("{id}")]
+            public ActionResult Put(int id,[FromBody] CarroModeloVisao carroModeloVisao)
+            {
+                try
+                {
+                    var carro = CarroRegras.ObterPorId(id);
+                    if (carro == null)
+                    {
+                        return NotFound();
+                    }
+                    CarroRegras.Editar(carro, carroModeloVisao);
+                    return NoContent();
+                }
+                catch (System.Exception)
+                {
+                    
+                    throw;
+                }
+            }
+
+            [HttpPost("AndarParaFrente")]
+            public IActionResult AndarParaFrente()
+            {
+                return Accepted();
+            }
     }
 }
